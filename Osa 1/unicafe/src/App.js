@@ -19,10 +19,20 @@ const App = () => {
     )
   }
 
-  const Button = (props) => {
+  const Button = ({ good, neutral, bad }) => {
     return (
-      <button onClick={props.handleClick}>
-        {props.text}
+      <>
+        <FeedbackButton handleClick={() => positiveFeedback()} text={good}>Bad</FeedbackButton>
+        <FeedbackButton handleClick={() => neutralFeedback()} text={neutral}>Bad</FeedbackButton>
+        <FeedbackButton handleClick={() => negativeFeedback()} text={bad}>Bad</FeedbackButton>
+      </>
+    )
+  }
+
+  const FeedbackButton = ({ handleClick, text }) => {
+    return (
+      <button onClick={handleClick}>
+        {text}
       </button>
     )
   }
@@ -42,14 +52,22 @@ const App = () => {
     return (
       <div>
         <p>
-          Good: {good}<br/>
-          Neutral: {neutral}<br/>
-          Bad: {bad}<br/>
-          All: {sum}<br/>
-          Average: {avg}<br/>
-          Positive: {positive} %
+          <StatisticLine text='good' value={good} />
+          <StatisticLine text='neutral' value={neutral} />
+          <StatisticLine text='bad' value={bad} />
+          <StatisticLine text='all' value={sum} />
+          <StatisticLine text='average' value={avg} />
+          <StatisticLine text='positive' value={positive} />
         </p>
       </div>
+    )
+  }
+
+  const StatisticLine = ({text, value}) => {
+    return (
+      <>
+        {text} {value}<br></br>
+      </>
     )
   }
 
@@ -64,9 +82,7 @@ const App = () => {
   return (
     <div>
       <Header text={headerText} />
-      <Button handleClick={() => positiveFeedback()} text={'Good'}>Bad</Button>
-      <Button handleClick={() => neutralFeedback()} text={'Neutral'}>Bad</Button>
-      <Button handleClick={() => negativeFeedback()} text={'Bad'}>Bad</Button>
+      <Button good={'Good'} neutral={'Neutral'} bad={'Bad'} />
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
