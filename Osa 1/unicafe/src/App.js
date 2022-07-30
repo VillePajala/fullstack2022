@@ -1,12 +1,15 @@
 import { useState } from 'react'
 
 const App = () => {
- 
+
+  // --------- states and constants---------
+
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-
   const headerText = 'Give feedback'
+
+  // ----------Components-------------------
 
   const Header = ({text}) => {
     return (
@@ -28,7 +31,7 @@ const App = () => {
     const sum = good + neutral + bad
     const avg = (good - bad) / sum
     const positive = good / sum * 100 
-    
+
     if (sum === 0) {
       return (
         <div>
@@ -57,9 +60,13 @@ const App = () => {
     )
   }
 
+  // -----Functions- ------------------------------
+
   const positiveFeedback = () => {setGood(good + 1)}
   const neutralFeedback = () => {setNeutral(neutral + 1)}
   const negativeFeedback = () => {setBad(bad + 1)}
+
+  // ----------Render-------------------------------
 
   return (
     <div>
