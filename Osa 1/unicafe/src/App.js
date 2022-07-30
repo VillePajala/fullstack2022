@@ -35,14 +35,7 @@ const App = () => {
     if (sum === 0) {
       return (
         <div>
-          <p>
-            Good: {good}<br/>
-            Neutral: {neutral}<br/>
-            Bad: {bad}<br/>
-            All: 0<br/>
-            Average: -<br/>
-            Positive: - %
-          </p>
+          <h2>No feedback given</h2>
         </div>
       )
     }
