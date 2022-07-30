@@ -24,13 +24,34 @@ const App = () => {
     )
   }
 
-  const Statistics = (props) => {
+  const Statistics = ({ good, neutral, bad }) => {
+    const sum = good + neutral + bad
+    const avg = (good - bad) / sum
+    const positive = good / sum * 100 
+    
+    if (sum === 0) {
+      return (
+        <div>
+          <p>
+            Good: {good}<br/>
+            Neutral: {neutral}<br/>
+            Bad: {bad}<br/>
+            All: 0<br/>
+            Average: -<br/>
+            Positive: - %
+          </p>
+        </div>
+      )
+    }
     return (
       <div>
         <p>
-          Good: {props.good}<br/>
-          Neutral: {props.neutral}<br/>
-          Bad: {props.bad}
+          Good: {good}<br/>
+          Neutral: {neutral}<br/>
+          Bad: {bad}<br/>
+          All: {sum}<br/>
+          Average: {avg}<br/>
+          Positive: {positive} %
         </p>
       </div>
     )
