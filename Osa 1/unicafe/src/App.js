@@ -21,11 +21,11 @@ const App = () => {
 
   const Button = ({ good, neutral, bad }) => {
     return (
-      <>
+      <div>
         <FeedbackButton handleClick={() => positiveFeedback()} text={good}>Bad</FeedbackButton>
         <FeedbackButton handleClick={() => neutralFeedback()} text={neutral}>Bad</FeedbackButton>
         <FeedbackButton handleClick={() => negativeFeedback()} text={bad}>Bad</FeedbackButton>
-      </>
+      </div>
     )
   }
 
@@ -51,23 +51,29 @@ const App = () => {
     }
     return (
       <div>
-        <p>
-          <StatisticLine text='good' value={good} />
-          <StatisticLine text='neutral' value={neutral} />
-          <StatisticLine text='bad' value={bad} />
-          <StatisticLine text='all' value={sum} />
-          <StatisticLine text='average' value={avg} />
-          <StatisticLine text='positive' value={positive} />
-        </p>
+        <div>
+          <h2>Statistics</h2>
+        </div>
+        <table>
+          <tbody>
+            <StatisticLine text='good' value={good} />
+            <StatisticLine text='neutral' value={neutral} />
+            <StatisticLine text='bad' value={bad} />
+            <StatisticLine text='all' value={sum} />
+            <StatisticLine text='average' value={avg.toFixed(1)} />
+            <StatisticLine text='positive' value={positive.toFixed(1) + " %"} />
+          </tbody> 
+        </table>
       </div>
     )
   }
 
   const StatisticLine = ({text, value}) => {
     return (
-      <>
-        {text} {value}<br></br>
-      </>
+      <tr>
+        <td>{text}</td>
+        <td>{value}</td>
+      </tr>
     )
   }
 
