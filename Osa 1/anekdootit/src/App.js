@@ -12,8 +12,9 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [points, setpoints] = useState({0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0})
 
-  const Button = ({ handleClick, text }) => {
+  const ButtoneVote = ({ handleClick, text }) => {
     return (
       <button onClick={handleClick}>
         {text}
@@ -21,20 +22,36 @@ const App = () => {
     )
   }
 
-  const Anecdote = ({ anecdote }) => {
+  const ButtonNext = ({ handleClick, text }) => {
+    return (
+      <button onClick={handleClick}>
+        {text}
+      </button>
+    )
+  }
+
+  const Anecdote = ({ anecdoteIndex, anecdote }) => {
     return (
       <>
-        <p>{anecdote}</p>
+        <p>{anecdote}<br></br>
+        has {points[anecdoteIndex]} votes</p>
       </>
     )
   }
-   
+  
+  const voteAnecdote = (indexOfAnecdote) => {
+    const copyOfPoints = {...points}
+    copyOfPoints[indexOfAnecdote] = copyOfPoints[indexOfAnecdote] + 1
+    setpoints(copyOfPoints)
+  }
+
   const generateRandomAnecdote = () => {setSelected(Math.floor(Math.random() * anecdotes.length))}
 
   return (
     <div>
-      <Anecdote anecdote={anecdotes[selected]} />
-      <Button handleClick={() => generateRandomAnecdote()} text={'Next anecdote'}>Next anecdote</Button>
+      <Anecdote anecdoteIndex={selected} anecdote={anecdotes[selected]} />
+      <ButtoneVote handleClick={() => voteAnecdote(selected)} text={'Vote'} />
+      <ButtonNext handleClick={() => generateRandomAnecdote()} text={'Next anecdote'} />
     </div>
   )
 }
