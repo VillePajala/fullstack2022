@@ -38,6 +38,24 @@ const App = () => {
       </>
     )
   }
+
+  const MostVoted = ({ anecdotes, points }) => {
+    const max = Math.max(...Object.values(points))
+    const maxIndex = Object.values(points).indexOf(max)
+    if (max === 0) {
+      return (
+        <>
+          <p>No votes given yet</p>
+        </>
+      )
+    }
+    return (
+      <>
+        <p>{anecdotes[maxIndex]}<br></br>
+        has {max} votes</p>
+      </>
+    )
+  }
   
   const voteAnecdote = (indexOfAnecdote) => {
     const copyOfPoints = {...points}
@@ -52,6 +70,7 @@ const App = () => {
       <Anecdote anecdoteIndex={selected} anecdote={anecdotes[selected]} />
       <ButtoneVote handleClick={() => voteAnecdote(selected)} text={'Vote'} />
       <ButtonNext handleClick={() => generateRandomAnecdote()} text={'Next anecdote'} />
+      <MostVoted anecdotes={anecdotes} points={points} />
     </div>
   )
 }
