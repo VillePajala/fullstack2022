@@ -1,3 +1,5 @@
+import Course from './Components/Course'
+
 const App = () => {
   const course = {
     name: 'Half Stack application development',
@@ -17,34 +19,17 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
 
-  const Course = ({ course }) => {
-    return (
-      <div>
-        <Header course={course} />
-        {course.parts.map(part => <Part key={part.id} part={part} />)}
-      </div>
-    )
-  }
+  
 
-  const Part = ({ part }) => {
-    return (
-      <div>
-        <p>{part.name} {part.exercises}</p>
-      </div>
-    )
-  }
-
-  const Header = ({ course }) => {
-    return (
-      <>
-        <h1>{course.name}</h1>
-      </>
-    )
-  }
 
   return (
     <div>
