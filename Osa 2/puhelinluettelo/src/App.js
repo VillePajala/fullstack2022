@@ -16,9 +16,15 @@ const App = () => {
     const personObject = {
       name: newName
     }
-  
+
+    if (persons.map(person => person.name).includes(newName)) {
+      setNewName('')
+    }else{
     setPersons(persons.concat(personObject))
     setNewName('')
+    }
+    
+    
   }
 
   return (
