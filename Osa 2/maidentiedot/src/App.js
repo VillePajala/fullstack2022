@@ -2,16 +2,43 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 const Countries = ({ countriesToShow }) => {
-  console.log(countriesToShow().length)
   if (countriesToShow().length === 0) {
     return <p>No countries found</p>
   }
   if (countriesToShow().length > 10) {
     return <p>Too many countries found. Specify new filter</p>
   }
-  return (
+  if (countriesToShow().length <=10 && countriesToShow().length > 1) {
+    return (
       countriesToShow()
       .map(country => <p key={country.name.common}>{country.name.common}</p>)
+    )
+  }
+  if (countriesToShow().length === 1){
+    return (
+      <Country country={countriesToShow()[0]} />
+    )
+  }
+}
+
+const Country = ({ country }) => {
+  return (
+    <>
+      <h2>{country.name.official}</h2>
+      <p>
+        Capital: {country.capital[0]}<br></br>
+        Area: {country.area}</p>
+      
+      <h3>Languages</h3>
+      <ul>
+        {Object.values(country.languages)
+          .map((value, index) => <li key={index}>{value}</li>)}
+      </ul>
+      <br></br>
+      <div>
+        <img src={country.flags.png} alt={country.name.official}></img>
+      </div>
+    </>
   )
 }
 
@@ -41,7 +68,7 @@ function App() {
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
   }
-  console.log(typeof(countries))
+
 
   return (
     <div>
