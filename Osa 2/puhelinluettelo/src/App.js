@@ -2,8 +2,14 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personService from './services/persons'
 
-const Persons = ({ persons, filter }) => {
-  return persons.filter(person => person.name.toLowerCase().includes(filter.toLocaleLowerCase())).map(person => <p key={person.name}>{person.name} {person.number}</p>)
+const Persons = ({ persons, filter, deletePerson }) => {
+  return (
+    persons
+      .filter(person => person.name.toLowerCase()
+      .includes(filter.toLocaleLowerCase()))
+      .map(person => 
+        <p key={person.name}>{person.name} {person.number} <button onClick={() => deletePerson(person.id)}>Delete</button></p>)
+  )
 }
 
 const PersonForm = ({ addPerson, newName, newNumber, handleNameChange, handleNumberChange }) => {
@@ -46,7 +52,6 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    console.log('effect')
     personService
       .getAll()
       .then(initialNotes => {
@@ -87,8 +92,18 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewNumber('')
           setNewName('')
-    })
+      })
     } 
+  }
+
+  const deletePerson = (id) => {
+    const deletedPerson = persons.filter(person => person.id === id)
+    personService
+      .remove(id)
+      .then(response => {
+        window.confirm(`Delete ${deletedPerson[0].name}?`)
+        setPersons(persons.filter(person => person.id !== id))
+      })
   }
 
   return (
@@ -107,10 +122,10 @@ const App = () => {
       <h3>Numbers</h3>
       <Persons 
         persons={persons} 
-        filter={filter} />
+        filter={filter}
+        deletePerson={deletePerson} />
     </div>
   )
-
 }
 
 export default App
