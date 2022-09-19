@@ -12,9 +12,9 @@ const Persons = ({ persons, filter, deletePerson }) => {
   )
 }
 
-const PersonForm = ({ addPerson, newName, newNumber, handleNameChange, handleNumberChange }) => {
+const PersonForm = ({ checkUpdateOrAdd, newName, newNumber, handleNameChange, handleNumberChange }) => {
   return (
-    <form onSubmit={addPerson}>
+    <form onSubmit={checkUpdateOrAdd}>
         <div>
           name: <input
             value={newName}
@@ -59,6 +59,18 @@ const App = () => {
       })
   }, [])
 
+  const checkUpdateOrAdd = (event) => {
+    event.preventDefault()
+    if (persons.some(person => person.name.toLocaleLowerCase() === newName.toLocaleLowerCase())) {
+      console.log("moi")
+      if (window.confirm(`${newName} is already in the phonebook. Replace the phone number?`)) {
+        updatePerson(newName)
+      }
+    } else {
+      addPerson()
+    }
+  }
+
   const handleNameChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
@@ -74,8 +86,7 @@ const App = () => {
     setFilter(event.target.value)
   }
 
-  const addPerson = (event) => {
-    event.preventDefault()
+  const addPerson = () => {
     const personObject = {
       name: newName,
       number: newNumber
@@ -96,6 +107,20 @@ const App = () => {
     } 
   }
 
+  const updatePerson = (nameToUpdate) => {
+    const personToUpdate = persons.filter(person => person.name.toLocaleLowerCase() === nameToUpdate.toLocaleLowerCase())
+    const changedPerson = { ...personToUpdate[0], number: newNumber }
+    const id = changedPerson.id
+
+    personService
+      .update(id, changedPerson)
+      .then(returnedPerson => {
+        setPersons(persons.map(person => person.id != id ? person : returnedPerson))
+        setNewName('')
+        setNewNumber('')
+    })
+  }
+
   const deletePerson = (id) => {
     const deletedPerson = persons.filter(person => person.id === id)
     personService
@@ -109,12 +134,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter 
-        filter={filter}
+      <Filter filter={filter}
         handleFilterChange={handleFilterChange}/>
       <h2>add a new</h2>
       <PersonForm 
-        addPerson={addPerson} 
+        checkUpdateOrAdd={checkUpdateOrAdd}
         newName={newName} 
         newNumber={newNumber} 
         handleNameChange={handleNameChange} 
